@@ -1,12 +1,31 @@
-function longestPalindromeSubseq(s) {
-  const n = s.length;
-  const dp = Array.from(Array(n), () => Array(n).fill(0));
-  for (let i = n - 1; i >= 0; i--) {
-    dp[i][i] = 1;
-    for (let j = i + 1; j < n; j++) {
-      if (s[i] === s[j]) dp[i][j] = dp[i + 1][j - 1] + 2;
-      else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+function spiralOrder(matrix) {
+  if (matrix.length === 0) return [];
+  const result = [];
+  let top = 0;
+  let bottom = matrix.length - 1;
+  let left = 0;
+  let right = matrix[0].length - 1;
+  while (top <= bottom && left <= right) {
+    for (let i = left; i <= right; i++) {
+      result.push(matrix[top][i]);
+    }
+    top++;
+    for (let i = top; i <= bottom; i++) {
+      result.push(matrix[i][right]);
+    }
+    right--;
+    if (top <= bottom) {
+      for (let i = right; i >= left; i--) {
+        result.push(matrix[bottom][i]);
+      }
+      bottom--;
+    }
+    if (left <= right) {
+      for (let i = bottom; i >= top; i--) {
+        result.push(matrix[i][left]);
+      }
+      left++;
     }
   }
-  return dp[0][n - 1];
+  return result;
 }
