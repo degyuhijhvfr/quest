@@ -1,31 +1,28 @@
-function spiralOrder(matrix) {
-  if (matrix.length === 0) return [];
-  const result = [];
-  let top = 0;
-  let bottom = matrix.length - 1;
-  let left = 0;
-  let right = matrix[0].length - 1;
-  while (top <= bottom && left <= right) {
-    for (let i = left; i <= right; i++) {
-      result.push(matrix[top][i]);
-    }
-    top++;
-    for (let i = top; i <= bottom; i++) {
-      result.push(matrix[i][right]);
-    }
-    right--;
-    if (top <= bottom) {
-      for (let i = right; i >= left; i--) {
-        result.push(matrix[bottom][i]);
-      }
-      bottom--;
-    }
-    if (left <= right) {
-      for (let i = bottom; i >= top; i--) {
-        result.push(matrix[i][left]);
-      }
-      left++;
-    }
+function reorderList(head) {
+  if (!head || !head.next) return;
+  let slow = head;
+  let fast = head;
+  while (fast.next && fast.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
   }
-  return result;
+  let prev = null;
+  let curr = slow.next;
+  slow.next = null;
+  while (curr) {
+    const next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  let first = head;
+  let second = prev;
+  while (second) {
+    const nextFirst = first.next;
+    const nextSecond = second.next;
+    first.next = second;
+    second.next = nextFirst;
+    first = nextFirst;
+    second = nextSecond;
+  }
 }
